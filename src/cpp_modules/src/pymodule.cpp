@@ -2,29 +2,87 @@
 #include <iostream>
 #include "main.cpp"
 
-// example from entrypoint.cpp
-char const * testInput = "\
+char const * testGetMove = "\
 0000000000\
 0000000000\
-0000000100\
-0000000111\
-0000000111\
-0000001111\
-0000011110\
-0000011111\
-0000011111\
-0001011111\
-0001111110\
-1001111110\
-1001111110\
-1001111110\
-1001111110\
-1101111111\
-1101111111\
-1111111110\
-1111111110\
-1101111111\
-|18|85|5|1|X....|";
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+|18|85|0|3|X....|";
+
+
+char const * testRateMove = "\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+|\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000000000\
+0000111100\
+|18|85|0|3|X....|";
+
+
+static PyObject *method_rate_move(PyObject *self, PyObject *args) {
+      char *test_input = NULL;
+    //   const char *test_input = testRateMove;
+
+      if(!PyArg_ParseTuple(args, "s", &test_input)){
+        return NULL;
+      }
+      std::string result = mainProcess(test_input, RATE_MOVE);
+
+      return Py_BuildValue("s", result.c_str());
+};
+
 
 static PyObject *method_get_move(PyObject *self, PyObject *args) {
       char *test_input = NULL;
@@ -40,6 +98,7 @@ static PyObject *method_get_move(PyObject *self, PyObject *args) {
 
 static PyMethodDef StackRabbitMethods[] = {
     {"get_move", method_get_move, METH_VARARGS, "Python interface for StackRabbit's GET_MOVE"},
+    {"rate_move", method_rate_move, METH_VARARGS, "Python interface for StackRabbit's RATE_MOVE"},
     {NULL, NULL, 0, NULL}
 };
 
